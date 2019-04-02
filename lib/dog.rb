@@ -75,6 +75,22 @@ def self.find_by_name(name)
     result
   end
   
+  def self.find_or_create_by(hash)
+    sql = <<-SQL
+      SELECT *
+      FROM dogs
+      WHERE name = ? AND breed = ?
+    SQL
+    row = DB[:conn].execute(sql, hash[:name], hash[:breed])
+    result = nil
+    if row[0] == nil
+      result = Dog.create(hash)
+    else
+      result = Dog.find_by_id(row[0][0])
+    end
+    result
+  end
+  
   
   
   
