@@ -43,7 +43,21 @@ class Dog
     new_dog = Dog.new(hash)
     new_dog.save
   end
-
+def self.find_by_name(name)
+    sql = <<-SQL
+      SELECT *
+      FROM dogs
+      WHERE name = ?
+    SQL
+    row = DB[:conn].execute(sql, name)
+    result = nil
+    Dog.all.each do |dog|
+      if dog.id == row[0][0]
+        result = dog
+      end
+    end
+    result
+  end
   
   
   
