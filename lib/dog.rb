@@ -43,6 +43,7 @@ class Dog
     new_dog = Dog.new(hash)
     new_dog.save
   end
+
 def self.find_by_name(name)
     sql = <<-SQL
       SELECT *
@@ -53,6 +54,16 @@ def self.find_by_name(name)
     result = nil
     Dog.all.each do |dog|
       if dog.id == row[0][0]
+        result = dog
+      end
+    end
+    result
+  end
+  
+  def self.find_by_id(num)
+    result = nil
+    Dog.all.each do |dog|
+      if dog.id == num
         result = dog
       end
     end
